@@ -1,0 +1,74 @@
+' filepath: /C:/Users/Santi/Desktop/Videojuego programacion/diagrama_clases.puml
+@startuml diagrama_clases
+skinparam classAttributeIconSize 0
+
+class Game {
+    - _instance : Game
+    - _initialized : bool
+    - screen
+    - clock
+    + get_instEance() : Game
+    + run()
+    + show_upgrade_screen()
+    + spawn_enemies(count)
+    + game_over_screen()
+    + draw_text(text, x, y, color, size)
+    + draw_health_bar(surface, x, y, health, max_health, bar_width)
+    + pause_screen()
+    ...
+}
+
+class Player {
+    - health : int
+    - shoot_delay : int
+    - damage : int
+    - player_speed : int
+    + shoot()
+    + update(keys_pressed)
+    + take_damage(amount)
+    + load_images()
+    + load_shoot_images()
+    + animate()
+    ...
+}
+
+class Enemy {
+    - enemy_type : str
+    - speed : int
+    - attack_range : int
+    + load_images()
+    + load_attack_images()
+    + update()
+    + animate()
+    + attack()
+    + take_damage(damage)
+    ...
+}
+
+class Boss {
+    + load_images()
+    + load_attack_images()
+    ...
+}
+
+class Upgrade {
+    - name : str
+    - description : str
+    - apply
+    + get_random_upgrades(player)
+}
+
+class Projectile {
+    - speed : int
+    - damage : int
+    + update()
+}
+
+Game "1" o-- "1" Player
+Game "1" o-- "*" Enemy
+Game "1" o-- "*" Boss
+Game "1" o-- "*" Upgrade
+Player "1" o-- "*" Projectile
+Enemy <|-- Boss
+
+@enduml

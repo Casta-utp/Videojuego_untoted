@@ -1,0 +1,91 @@
+' filepath: /C:/Users/Santi/Desktop/Videojuego programacion/casos_uso.puml
+@startuml casos_uso
+left to right direction
+skinparam rectangle {
+    BackgroundColor #FDF6E3
+    BorderColor #657b83
+}
+
+actor Jugador
+
+rectangle "Iniciar Juego" as CU1
+note right of CU1
+Nombre: Iniciar Juego
+Creado por: Santiago Castañeda Pérez
+Fecha de creación: 21/05/2025
+Descripción: El usuario selecciona "Jugar" en el menú principal para comenzar una nueva partida.
+Disparador: El usuario selecciona "Jugar" en el menú principal.
+Pre-condiciones: El juego debe estar en la pantalla del menú principal.
+Post-condiciones: Se inicia una nueva partida y el jugador controla al personaje en el escenario inicial.
+end note
+rectangle "Moverse y Disparar" as CU2
+note right of CU2
+Nombre: Moverse y Disparar
+Creado por: Santiago Castañeda Pérez
+Fecha de creación: 21/05/2025
+Descripción: El usuario controla al personaje con las teclas WASD y dispara con el mouse.
+Disparador: El usuario presiona las teclas de movimiento o el botón del mouse.
+Pre-condiciones: El juego debe estar en curso y el jugador debe tener control del personaje.
+Post-condiciones: El personaje se mueve y dispara según las acciones del usuario.
+end note
+rectangle "Seleccionar Mejora" as CU3
+note right of CU3
+Nombre: Seleccionar Mejora
+Creado por: Santiago Castañeda Pérez
+Fecha de creación: 21/05/2025
+Descripción: Al subir de nivel, el usuario elige una mejora entre varias opciones que afectan las habilidades del personaje.
+Disparador: El jugador sube de nivel.
+Pre-condiciones: El jugador debe haber alcanzado la experiencia suficiente para subir de nivel.
+Post-condiciones: Se aplica la mejora seleccionada al personaje.
+end note
+rectangle "Pausar Juego" as CU4
+note right of CU4
+Nombre: Pausar Juego
+Creado por: Santiago Castañeda Pérez
+Fecha de creación: 21/05/2025
+Descripción: El usuario puede pausar la partida presionando la tecla P y acceder a opciones de reinicio o salida.
+Disparador: El usuario presiona la tecla P durante la partida.
+Pre-condiciones: El juego debe estar en curso.
+Post-condiciones: El juego se detiene temporalmente y se muestran las opciones de pausa.
+end note
+rectangle "Game Over" as CU5
+note right of CU5
+Nombre: Game Over
+Creado por: Santiago Castañeda Pérez
+Fecha de creación: 21/05/2025
+Descripción: Al perder toda la vida, el usuario puede reiniciar la partida o volver al menú principal.
+Disparador: El jugador pierde toda la vida.
+Pre-condiciones: El jugador debe estar en una partida activa.
+Post-condiciones: Se muestra la pantalla de Game Over y el jugador puede elegir reiniciar o volver al menú.
+end note
+rectangle "Consultar Controles" as CU6
+note right of CU6
+Nombre: Consultar Controles
+Creado por: Santiago Castañeda Pérez
+Fecha de creación: 21/05/2025
+Descripción: El usuario puede ver los controles del juego desde el menú principal.
+Disparador: El usuario selecciona la opción "Controles" en el menú principal.
+Pre-condiciones: El juego debe estar en la pantalla del menú principal.
+Post-condiciones: Se muestra la pantalla de controles al usuario.
+end note
+rectangle "Salir del Juego" as CU7
+note right of CU7
+Nombre: Salir del Juego
+Creado por: Santiago Castañeda Pérez
+Fecha de creación: 21/05/2025
+Descripción: El usuario puede salir del juego desde el menú principal o durante la partida.
+Disparador: El usuario selecciona la opción "Salir" en el menú principal o durante la partida.
+Pre-condiciones: El juego debe estar en ejecución.
+Post-condiciones: El juego se cierra correctamente.
+end note
+}
+
+Jugador -- CU1
+Jugador -- CU2
+Jugador -- CU3
+Jugador -- CU4
+Jugador -- CU5
+Jugador -- CU6
+Jugador -- CU7
+
+@enduml
