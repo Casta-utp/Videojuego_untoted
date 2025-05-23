@@ -126,7 +126,7 @@ class Enemy(pygame.sprite.Sprite):
             self.hit_sound.play()  # Reproduce el sonido cuando el enemigo muere
 
 class Boss(Enemy):
-    def __init__(self, x, y, target):
+    def __init__(self, x, y, target, on_death=None):
         super().__init__(x, y, target, enemy_type="boss", speed=1.5)
         self.health = 200  # Más vida
         self.damage = 20  # Daño más alto
@@ -136,7 +136,16 @@ class Boss(Enemy):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.on_death = on_death 
 
+    def take_damage(self, damage):
+        self.health -= damage
+        if self.health <= 0:
+            self.kill()
+            self.hit_sound.play()
+            if self.on_death:
+                self.on_death()
+                
     def load_images(self):
         frames = []
         for i in range(1, 6):  

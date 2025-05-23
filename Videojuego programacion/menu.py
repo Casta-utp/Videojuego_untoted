@@ -133,7 +133,9 @@ def show_menu():
                     select_sound.play()
                     if options[selected_index] == "Jugar":
                         game = Game.get_instance()
-                        game.run()
+                        result = game.run()
+                        if result == "menu":
+                            continue
                     elif options[selected_index] == "Controles":
                         show_controls(screen, clock)
                     elif options[selected_index] == "Salir":

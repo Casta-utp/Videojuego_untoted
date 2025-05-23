@@ -183,28 +183,22 @@ class Game:
         pygame.display.flip()
 
         # Esperar interacción del jugador
-        self.wait_for_input()
+        return self.wait_for_input()
 
     def wait_for_input(self):
-        waiting = True
-        while waiting:
+        while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit()
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_r:
-                        self.__init__()  # Reinicia el juego
-                        self.run()       # Corre el juego de nuevo
-                        return
+                        return "restart"
                     elif event.key == pygame.K_m:
-                        return "menu"    # Retorna control al menú
+                        return "menu"
                     elif event.key == pygame.K_ESCAPE:
                         pygame.quit()
                         exit()
-                        # Cambiar música para la pantalla de Game Over
-                        pygame.mixer.music.load('sounds/menu_music.mp3')
-                        pygame.mixer.music.play(-1, 0.0)  # Reproducir indefinidamente
 
     def increase_difficulty(self):
         if self.score > 0 and self.score % 5 == 0:
@@ -219,20 +213,16 @@ class Game:
             self.show_upgrade_screen()  # Mostrar pantalla de mejoras al subir de nivel
 
     def spawn_boss(self):
-        boss = Boss(WIDTH // 2, HEIGHT // 2, self.player)
+        def on_boss_death():
+            pygame.mixer.music.load('sounds/background_music.mp3')
+            pygame.mixer.music.set_volume(0.5)
+            pygame.mixer.music.play(-1, 0.0)
+
+        boss = Boss(WIDTH // 2, HEIGHT // 2, self.player, on_death=on_boss_death)
         self.enemies.add(boss)
         self.all_sprites.add(boss)
-        pygame.mixer.music.load('sounds/boss_music.mp3')  # Música de jefe
-        pygame.mixer.music.play(-1, 0.0)  # Música de jefe que se repite
-
-        # Monitorear la muerte del jefe
-        def check_boss_status():
-            if not boss.alive():
-                pygame.mixer.music.load('sounds/background_music.mp3')  # Volver a la música de fondo
-                pygame.mixer.music.set_volume(0.5)
-                pygame.mixer.music.play(-1, 0.0)
-
-        boss.update = lambda: (Boss.update(boss), check_boss_status())
+        pygame.mixer.music.load('sounds/boss_music.mp3')
+        pygame.mixer.music.play(-1, 0.0)
 
     def apply_upgrade(self):
         upgrade = random.choice(['faster_shooting', 'more_damage', 'regen'])
@@ -343,6 +333,13 @@ class Game:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_p:  # Activar la pausa
                         self.pause_screen()
+            if self.player.health <= 0:
+                result = self.game_over_screen()
+                if result == "menu":
+                    return  "menu"
+                elif result == "restart":
+                    self.reset_game()
+                    continue
 
             keys_pressed = pygame.key.get_pressed()
             self.player.update(keys_pressed)
